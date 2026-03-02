@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 16:32:15 by obachuri          #+#    #+#             */
-/*   Updated: 2026/02/26 21:00:40 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/01 17:51:13 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,10 @@ int	main(int arga, char **args)
 	}
 	if (param_read_test(&param, args))
 		return (1);
+	if (init_simulation(&param))
+		return (1);
+		// pthread_join()
+	pthread_exit(NULL);
+	cleanup(&param);
 	return (0);
 }

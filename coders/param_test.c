@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 18:43:35 by obachuri          #+#    #+#             */
-/*   Updated: 2026/02/26 21:03:36 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/01 15:38:51 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,6 @@ int	param_read_test(t_param	*param, char **args)
 	param->time_to_refactor = atoi(args[5]);
 	param->number_of_compiles_required = atoi(args[6]);
 	param->dongle_cooldown = atoi(args[7]);
+	param->it_is_the_end = 0;
 	return (0);
 }
