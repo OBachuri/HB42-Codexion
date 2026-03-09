@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 16:48:51 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/01 18:10:46 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/04 13:33:26 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,13 @@ time_to_burnout.
 
 typedef struct s_coder	t_coder; // forward declaration
 
+typedef struct s_dongle
+{
+	int				id;
+	unsigned long	end_of_last_use;
+	pthread_mutex_t	dongle_mutex;
+}	t_dongle;
+
 typedef struct s_param
 {
 	int				number_of_coders;
@@ -45,7 +52,7 @@ typedef struct s_param
 	int				it_is_the_end;
 	pthread_mutex_t	it_is_the_end_mutex;
 	t_coder			*coders;
-	pthread_mutex_t	*dongles;
+	t_dongle		*dongles;
 }	t_param;
 
 typedef struct s_coder
