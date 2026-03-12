@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 16:48:51 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/04 13:33:26 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/12 16:30:32 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include	<string.h>
 # include	<pthread.h>
 # include	<sys/time.h> 
+# include	<time.h>
+# include	<errno.h>
 
 typedef enum e_scheduler {FIFO, EDF}	t_scheduler;
 /* fifo - First In, First Out: the dongle is granted to the coder whose
@@ -30,11 +32,28 @@ time_to_burnout.
 
 typedef struct s_coder	t_coder; // forward declaration
 
+typedef struct s_request
+{
+	int				coder_id;
+	unsigned long	add_time;
+	unsigned long	last_compile;
+}	t_request;
+
+typedef struct s_queue
+{
+	t_request	el[2];
+	int			size;
+}	t_queue;
+
 typedef struct s_dongle
 {
 	int				id;
 	unsigned long	end_of_last_use;
-	pthread_mutex_t	dongle_mutex;
+	int				is_used_now;
+	int				coder_id_use_now;
+	t_queue			queue;
+	pthread_mutex_t	mutex;
+	pthread_cond_t	cond;
 }	t_dongle;
 
 typedef struct s_param
@@ -59,9 +78,10 @@ typedef struct s_coder
 {
 	int				id;
 	int				times_compile;
-	long			time_last_compile;
-	pthread_mutex_t	*left_dongle;
-	pthread_mutex_t	*right_dongle;
+	unsigned long	last_compile;
+	t_dongle		*left_dongle;
+	t_dongle		*right_dongle;
+	pthread_mutex_t	mutex;
 	t_param			*param;
 	pthread_t		thread_id;
 
@@ -76,6 +96,12 @@ void	exit_error(t_param *param, char *error);
 int		is_it_the_end(t_param	*param);
 
 void	*coder_routine(void *arg);
+
+void	take_dongles(t_coder *c_);
+
+void	queue_add(t_dongle *d_, t_coder *c_);
+int		queue_pop(t_dongle *d_, t_scheduler scheduler);
+int		queue_peek(t_dongle *d_, t_scheduler scheduler);
 
 long	fm_get_time_ms(void);
 size_t	ft_strlcpy(char *dest_, const char *src_, size_t cnt_);

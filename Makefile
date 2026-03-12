@@ -5,7 +5,7 @@ RM = rm -rf
 CFLAGS += -Wall -Wextra -Werror -pthread 
 
 SRCS = codexion.c coders/param_test.c coders/str_util.c coders/str_util_2.c coders/init.c coders/routine.c \
-	   coders/util.c coders/cleanup.c
+	   coders/util.c coders/cleanup.c coders/queue.c coders/dongle.c
 
 OBJ_DIR = obj
 
