@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 14:28:04 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/01 18:00:09 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:52:20 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,24 @@ void	cleanup(t_param *param)
 		return ;
 	pthread_mutex_destroy(&param->print_mutex);
 	pthread_mutex_destroy(&param->it_is_the_end_mutex);
-	i = -1;
-	while (++i < param->number_of_coders)
+	pthread_mutex_destroy(&param->coders_complete_task_mutex);
+	if (param->coders)
 	{
-		if (param->dongles)
-			pthread_mutex_destroy(&param->dongles[i]);
+		i = -1;
+		while (++i < param->number_of_coders)
+			pthread_mutex_destroy(&param->coders[i].mutex);
+		free(param->coders);
 	}
 	if (param->dongles)
+	{
+		i = -1;
+		while (++i < param->number_of_coders)
+		{
+			pthread_cond_destroy(&param->dongles[i].cond);
+			pthread_mutex_destroy(&param->dongles[i].mutex);
+		}
 		free(param->dongles);
+	}
 }
 
 void	exit_error(t_param *param, char *error)

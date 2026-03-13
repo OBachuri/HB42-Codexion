@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/25 16:32:15 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/12 17:18:39 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/13 18:05:14 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int arga, char **args)
 		fprintf(stderr, "Error: Wrong papameters! "
 			"Run the program like this: \n");
 		fprintf(stderr, "%s  <number_of_coders> "
-			"<time_to_burnout time_to_compile> "
+			"<time_to_burnout> <time_to_compile> "
 			"<time_to_debug> <time_to_refactor> <number_of_compiles_required> "
 			"<dongle_cooldown> <scheduler:fifo|edf> \n", args[0]);
 		return (1);
@@ -30,8 +30,6 @@ int	main(int arga, char **args)
 		return (1);
 	if (init_simulation(&param))
 		return (1);
-		// pthread_join()
-	pthread_exit(NULL);
 	cleanup(&param);
 	return (0);
 }
