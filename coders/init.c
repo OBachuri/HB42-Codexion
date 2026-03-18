@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 12:24:54 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/13 17:56:19 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:49:33 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int	init_simulation(t_param	*param)
 
 	err = init_dongles_and_mutex(param);
 	err = err | init_coders(param);
-	if ((err) || start_simulation(param))
+	param->log = pq_init();
+	if ((err) || start_simulation(param) || !(param->log))
 		return (printf("An error occurred: %d\n", err), 1);
 	i = -1;
 	while (++i < param->number_of_coders)

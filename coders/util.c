@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/28 13:35:48 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/04 13:48:01 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:06:30 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,36 @@ unsigned long	fm_get_time_ms(void)
 	return (miliseconds);
 }
 
-void	print_status(t_coder *coder, const char *status, unsigned long time_ms)
+void	delay_ns_in_ts(struct timespec *ts, unsigned int delay_ns)
 {
-	time_ms = time_ms - coder->param->start_time;
-	pthread_mutex_lock(&(coder->param->print_mutex));
-	printf("%ld %d %s\n", time_ms, coder->id, status);
-	fflush(stdout);
-	pthread_mutex_unlock(&(coder->param->print_mutex));
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	ts->tv_sec = tv.tv_sec;
+	ts->tv_nsec = tv.tv_usec * 1000;
+	ts->tv_nsec += delay_ns;
+	if (ts->tv_nsec >= 1000000000)
+	{
+		ts->tv_sec++;
+		ts->tv_nsec -= 1000000000;
+	}
 }
 
-void	print_status_curr_time(t_coder *coder, const char *status)
-{
-	print_status(coder, status, fm_get_time_ms());
-}
+// void	print_status(t_coder *coder, const char *status, unsigned long time_ms)
+// {
+// 	if (is_it_the_end(coder->param))
+// 		return ;
+// 	time_ms = time_ms - coder->param->start_time;
+// 	pthread_mutex_lock(&(coder->param->print_mutex));
+// 	printf("%ld %d %s\n", time_ms, coder->id, status);
+// 	fflush(stdout);
+// 	pthread_mutex_unlock(&(coder->param->print_mutex));
+// }
+
+// void	print_status_curr_time(t_coder *coder, const char *status)
+// {
+// 	print_status(coder, status, fm_get_time_ms());
+// }
 
 int	is_it_the_end(t_param	*param)
 {

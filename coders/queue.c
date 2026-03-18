@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:15:33 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/12 16:30:07 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:38:58 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	queue_add(t_dongle *d_, t_coder *c_)
 	if (d_->queue.size >= 2)
 	{
 		fprintf(stderr,
-			"ERROR: Can`t add coder %d in queue of dongle %d !",
-			c_->id, d_->id);
+			"ERROR: Can`t add coder %d in queue of dongle %d (c=[%d,%d] )! \n",
+			c_->id, d_->id, d_->queue.el[0].coder_id, d_->queue.el[1].coder_id);
 		return ;
 	}
 	d_->queue.el[d_->queue.size].coder_id = c_->id;

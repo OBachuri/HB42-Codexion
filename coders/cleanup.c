@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/01 14:28:04 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/13 17:52:20 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:50:43 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	cleanup(t_param *param)
 		}
 		free(param->dongles);
 	}
+	pq_clean(&(param->log));
 }
 
 void	exit_error(t_param *param, char *error)

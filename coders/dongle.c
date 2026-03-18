@@ -6,25 +6,19 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:41:37 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/13 18:13:00 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:45:47 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"codexion.h"
 
-void	delay_ns_in_ts(struct timespec *ts, unsigned int delay_ns)
+void	return_dongle_after_compile(t_dongle *d_, unsigned long time_)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	ts->tv_sec = tv.tv_sec;
-	ts->tv_nsec = tv.tv_usec * 1000;
-	ts->tv_nsec += delay_ns;
-	if (ts->tv_nsec >= 1000000000)
-	{
-		ts->tv_sec++;
-		ts->tv_nsec -= 1000000000;
-	}
+	pthread_mutex_lock(&(d_->mutex));
+	d_->end_of_last_use = time_;
+	d_->coder_id_use_now = 0;
+	d_->is_used_now = 0;
+	pthread_mutex_unlock(&(d_->mutex));
 }
 
 int	check_dongle_cooldown(t_dongle *d_, t_param	*param)

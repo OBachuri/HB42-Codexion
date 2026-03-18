@@ -55,12 +55,23 @@ make all
 ## Algorithm Design & Implementation
 
 
-#### Conflict Resolution Strategy
+### Conflict Resolution Strategy
 
-#### Implementation 
+### Implementation 
 
+#### Min Heap Priority Queue on Binary Heap Structure
+Binary Heap Operations:
+- Insert      O(log n)
+- ExtractMin  O(log n)
+- PeekMin     O(1)
 
 ## Resources & References
+
+GeeksforGeeks — Binary Heap
+https://www.geeksforgeeks.org/binary-heap/
+
+Priority Queue using Heap
+https://www.geeksforgeeks.org/priority-queue-using-binary-heap/
 
 ## License
 
