@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 17:37:26 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 21:05:57 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:51:00 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,3 @@ void	log_print(t_param *param)
 	pthread_mutex_unlock(&(param->print_mutex));
 	return ;
 }
-// printf("--the end--\n"),

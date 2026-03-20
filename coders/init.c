@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 12:24:54 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 17:49:33 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:51:12 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@ int	init_dongles_and_mutex(t_param	*param)
 	while (++i < param->number_of_coders)
 	{
 		param->dongles[i].id = i + 1;
+		param->dongles[i].queue.size = 0;
+		param->dongles[i].end_of_last_use = 0;
+		param->dongles[i].is_used_now = 0;
 		if (pthread_mutex_init(&param->dongles[i].mutex, NULL))
 			return (exit_error(param, "Error: Init dongles mutex \n"), 1);
 		if (pthread_cond_init(&param->dongles[i].cond, NULL))
@@ -60,13 +63,6 @@ int	init_coders(t_param	*param)
 	}
 	return (0);
 }
-/*
-int pthread_create(
-  pthread_t *thread,
-  const pthread_attr_t *attr,
-  void *(*routine) (void *),
-  void *arg);
-*/
 
 int	start_simulation(t_param	*param)
 {

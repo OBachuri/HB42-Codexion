@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 15:36:55 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 20:10:39 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:34:49 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int	check_burn_out(t_param	*param)
 		if ((long)(now - param->coders[i].last_compile)
 			>= (long)param->time_to_burnout)
 		{
+			pthread_mutex_unlock(&(param->coders[i].mutex));
 			pthread_mutex_lock(&param->it_is_the_end_mutex);
 			param->it_is_the_end = 1;
 			pthread_mutex_unlock(&param->it_is_the_end_mutex);
-			pthread_mutex_unlock(&(param->coders[i].mutex));
 			log_add(&(param->coders[i]), C_BURNOUT, now);
 			return (1);
 		}

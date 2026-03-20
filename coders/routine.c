@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/27 12:50:31 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 20:06:35 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/20 10:55:24 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,12 @@
 
 void	check_if_number_of_compiles_is_required(t_coder *c_)
 {
-	c_->times_compile++;
-	if (c_->times_compile == c_->param->number_of_compiles_required)
+	int	coders_complit_task;	
+
+	pthread_mutex_lock(&(c_->mutex));
+	coders_complit_task = ++c_->times_compile;
+	pthread_mutex_unlock(&(c_->mutex));
+	if (coders_complit_task == c_->param->number_of_compiles_required)
 	{
 		pthread_mutex_lock(&(c_->param->coders_complete_task_mutex));
 		c_->param->coders_complete_task++;
@@ -38,9 +42,7 @@ void	compiling(t_coder *c_)
 	log_add(c_, C_TAKE_DONGLE, time_);
 	log_add(c_, C_COMPILE, time_);
 	s_ms_sleep(c_->param, (unsigned long)c_->param->time_to_compile);
-	pthread_mutex_lock(&(c_->mutex));
 	check_if_number_of_compiles_is_required(c_);
-	pthread_mutex_unlock(&(c_->mutex));
 	time_ += c_->param->time_to_compile;
 	return_dongle_after_compile(c_->left_dongle, time_);
 	return_dongle_after_compile(c_->right_dongle, time_);
@@ -73,7 +75,8 @@ void	*coder_routine(void *arg)
 		usleep(coder->param->time_to_burnout * 1000 + 1000);
 		return (NULL);
 	}
-	usleep(((coder->id - 1) % 2) * 500);
+	if (((coder->id) % 2) == 0)
+		usleep(coder->param->time_to_compile * 1000 - 500);
 	while (!(is_it_the_end(coder->param)))
 	{
 		compiling(coder);

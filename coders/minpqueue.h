@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/16 16:51:02 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 20:24:15 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/19 17:52:46 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 # include <stdlib.h>
 
 # ifndef PQ_INIT_SIZE
-#  define PQ_INIT_SIZE 20024
+#  define PQ_INIT_SIZE 30024
 # endif
 
-// value - sort by that 
+// sort = sort by that 
 typedef struct s_qelement
 {
 	long			sort;

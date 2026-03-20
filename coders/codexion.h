@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/26 16:48:51 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/17 20:05:44 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/03/19 14:39:40 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ void			*monitor_of_burn_out(void *arg);
 void			take_dongles(t_coder *c_);
 void			return_dongle_after_compile(t_dongle *d_, unsigned long time_);
 
-void			queue_add(t_dongle *d_, t_coder *c_);
+void			queue_add(t_dongle *d_, t_coder *c_,
+					unsigned long last_compile);
 int				queue_pop(t_dongle *d_, t_scheduler scheduler);
 int				queue_peek(t_dongle *d_, t_scheduler scheduler);
 
