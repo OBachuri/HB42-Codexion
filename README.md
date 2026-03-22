@@ -119,16 +119,26 @@ It's set when dongle releasing in function "return_dongle_after_compile()" and c
 
 ### Log serialization
 
-Log implementation based on Min Heap Priority Queue. 
+In multi-threaded or distributed systems, multiple parts of a program try to write logs at the same time. Without serialization, you can get:
+- Jumbled log lines (messages overlapping each other)
+- Out-of-order events (hard to debug)
+- Corrupted output (especially in files or streams)
 
+To solve the issue one of these approaches is required:
+- Single-threaded logging - Only one thread writes logs.
+- Locking / synchronization - Threads must acquire a lock before writing to the log.
+- Queue-based logging - Threads push messages into a queue, and a single worker writes them in order.
+
+This project implements logging based on a heap-based minimum priority queue.
 - Log Events is putted in the queue with time as key.
 - Once per millisecond the queue is checked and events that occurred 5 or more millisecond ago are printed in correct order.
-
-The log queue insert() and pop() is protected by Mutex.
+- The log queue insert() and pop() is protected by Mutex.
 
 #### Min Heap Priority Queue on Binary Heap Structure
 
 The project implements a custom Min Heap Priority Queue to ensure ordered and deterministic processing of events (primarily for logging). The structure is based on a binary heap, providing efficient insertion and extraction of the smallest element.
+
+That part could be used as library in another projects.
 
 Binary Heap Operations:
 - Insert      O(log n)
@@ -139,6 +149,7 @@ Binary Heap Operations:
 
 The priority queue is defined as:
 ``` C
+// minpqueue.h
 typedef struct s_qelement
 {
 	long            sort;
@@ -153,6 +164,13 @@ typedef struct s_pqueue
 	unsigned long   id;
 	t_qelement      *qe;
 } t_pqueue;
+
+t_pqueue	*pq_init(void);
+void	pq_clean(t_pqueue **q_);
+int 	pq_insert(t_pqueue *q, long sort, void *data);
+
+void	*pq_peek(t_pqueue *q);	// return pointer to data
+void	*pq_pop(t_pqueue *q);	// return pointer to data
 ```
 - sort → Primary key (e.g., timestamp of event)
 - id → Secondary key to preserve insertion order (FIFO for equal priority)
@@ -246,6 +264,11 @@ https://www.geeksforgeeks.org/priority-queue-using-binary-heap/
 [pthread_cond_wait(3)](https://man7.org/linux/man-pages/man3/pthread_cond_wait.3p.html)
 [pthread_cond_broadcast(3)](https://man7.org/linux/man-pages/man3/pthread_cond_broadcast.3p.html)
 [gettimeofday(2)](https://man7.org/linux/man-pages/man2/gettimeofday.2.html)
+
+### AI Usage
+Tools Used: ChatGPT (GPT-4)
+
+AI was used to generate the illustration and Structuring this README to meet subject requirements. 
 
 ## License
 
