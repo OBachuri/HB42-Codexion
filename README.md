@@ -46,10 +46,10 @@ A message announcing that a coder burned out should be displayed no more than 10
 
 ![Illustration by ChatRPT](codexion.png)
 
-Key techniques demonstrated:
+Key techniques:
 - Multi-threaded synchronization using POSIX threads, mutex lock, mutex condition variable
 - Min-heap priority queue
-- FIFO and EDF scheduling 
+- FIFO and EDF scheduling
 
 ## Compile
 
@@ -218,6 +218,8 @@ Min heap → optimal balance: O(log n)
 
 This project relies on POSIX threading primitives to ensure safe and deterministic interaction between concurrent coder threads and shared resources such as dongles, logging infrastructure, and global simulation state.
 
+There are separate Threads for every *Coders* routine plus another one for monitoring *Burn-out* or finishing the task and print log.
+
 ### Mutexes
 Mutexes are the primary mechanism used to protect shared data from concurrent access (data races).
 
@@ -265,10 +267,13 @@ https://www.geeksforgeeks.org/priority-queue-using-binary-heap/
 [pthread_cond_broadcast(3)](https://man7.org/linux/man-pages/man3/pthread_cond_broadcast.3p.html)
 [gettimeofday(2)](https://man7.org/linux/man-pages/man2/gettimeofday.2.html)
 
+Codexion Visualizer (Created by @0xS4cha and @69Nesta)
+https://codexion-visualizer.sacha-dev.me/
+
 ### AI Usage
 Tools Used: ChatGPT (GPT-4)
 
-AI was used to generate the illustration and Structuring this README to meet subject requirements. 
+AI was used to generate the illustration and structuring this README to meet subject requirements.
 
 ## License
 
