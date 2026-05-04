@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/10 17:15:33 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/19 17:33:04 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/05/04 17:08:29 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ int	queue_pop(t_dongle *d_, t_scheduler scheduler)
 		return (d_->queue.size--, d_->queue.el[0].coder_id);
 	coder_id = d_->queue.el[1].coder_id;
 	if (((scheduler == EDF) \
-		&& (d_->queue.el[0].last_compile <= d_->queue.el[1].last_compile)) \
+		&& (d_->queue.el[0].last_compile < d_->queue.el[1].last_compile)) \
 		|| ((scheduler == FIFO) \
-		&& (d_->queue.el[0].add_time <= d_->queue.el[1].add_time)))
+		&& (d_->queue.el[0].add_time < d_->queue.el[1].add_time)))
 	{
 		coder_id = d_->queue.el[0].coder_id;
 		d_->queue.el[0].coder_id = d_->queue.el[1].coder_id;
@@ -73,9 +73,9 @@ int	queue_peek(t_dongle *d_, t_scheduler scheduler)
 		return (d_->queue.el[0].coder_id);
 	coder_id = d_->queue.el[1].coder_id;
 	if (((scheduler == EDF) \
-		&& (d_->queue.el[0].last_compile <= d_->queue.el[1].last_compile)) \
+		&& (d_->queue.el[0].last_compile < d_->queue.el[1].last_compile)) \
 		|| ((scheduler == FIFO) \
-		&& (d_->queue.el[0].add_time <= d_->queue.el[1].add_time)))
+		&& (d_->queue.el[0].add_time < d_->queue.el[1].add_time)))
 	{
 		coder_id = d_->queue.el[0].coder_id;
 	}

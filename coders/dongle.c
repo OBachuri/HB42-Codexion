@@ -6,7 +6,7 @@
 /*   By: obachuri <obachuri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 11:41:37 by obachuri          #+#    #+#             */
-/*   Updated: 2026/03/19 17:43:16 by obachuri         ###   ########.fr       */
+/*   Updated: 2026/05/04 17:50:50 by obachuri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,15 @@ int	check_dongle_cooldown(t_dongle *d_, t_param	*param)
 		< (unsigned long)param->dongle_cooldown);
 }
 
+// --- for debug put the code in start of return_dongle()
+// printf("-- return - coder %d, q_size %d, d_id = %d \n",
+// 	c_->id, d_->queue.size, d_->id);
+// printf("q[0]: coder %d, last_time %ld \n",
+// 	d_->queue.el[0].coder_id, d_->queue.el[0].last_compile);
+// if (d_->queue.size > 1)
+// 	printf("q[1]: coder %d, last_time %ld \n",
+// 		d_->queue.el[1].coder_id, d_->queue.el[1].last_compile);
+
 int	return_dongle(t_dongle *d_, t_coder *c_)
 {
 	if (c_->id == queue_peek(d_, c_->param->scheduler))
@@ -37,8 +46,8 @@ int	return_dongle(t_dongle *d_, t_coder *c_)
 		pthread_mutex_unlock(&(d_->mutex));
 		return (c_->id);
 	}
-	pthread_mutex_unlock(&(d_->mutex));
 	pthread_cond_broadcast(&(d_->cond));
+	pthread_mutex_unlock(&(d_->mutex));
 	return (0);
 }
 
@@ -57,17 +66,9 @@ int	take_dongle(t_dongle *d_, t_coder *c_)
 			usleep(100), 0);
 	if (d_->queue.size > 1)
 		return (return_dongle(d_, c_));
-	delay_ns_in_ts(&ts, 1000);
+	delay_ns_in_ts(&ts, 900000);
 	pthread_cond_timedwait(&(d_->cond), &(d_->mutex), &ts);
-	if (c_->id == queue_peek(d_, c_->param->scheduler))
-	{
-		d_->coder_id_use_now = queue_pop(d_, c_->param->scheduler);
-		d_->is_used_now = 1;
-		pthread_mutex_unlock(&(d_->mutex));
-		return (c_->id);
-	}
-	pthread_mutex_unlock(&(d_->mutex));
-	return (0);
+	return (return_dongle(d_, c_));
 }
 
 void	take_dongles(t_coder *c_)
